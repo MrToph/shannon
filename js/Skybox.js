@@ -2,9 +2,12 @@ Game.Skybox = new Class({
     initialize: function(size){
         this.size = size;
         //var urls	= Game.Utils.UrlsPx("images/skybox/red/", ".jpg");
-    	var urls	= Game.Utils.UrlsPx("images/skybox/castle/", ".jpg");
-    	//var urls	= Game.Utils.UrlsPx("images/skybox/colors/", ".jpg");
+
     	//var urls	= Game.Utils.UrlsPx("images/skybox/mountain/", ".jpg");
+        
+    	var urls	= Game.Utils.UrlsPx("images/skybox/castle/", ".jpg");
+        var urls    = Game.Utils.UrlsPx("images/skybox/moonlight/", ".jpg");
+        //var urls    = Game.Utils.UrlsPx("images/skybox/colors/", ".jpg");
         var urls    = Game.Utils.UrlsPx("images/skybox/interstellar/", ".jpg");
         
         this.texturePlaceholder;
@@ -28,6 +31,7 @@ Game.Skybox = new Class({
 	
         this.mesh = new THREE.Mesh( new THREE.CubeGeometry( size, size, size, 7, 7, 7 ), new THREE.MeshFaceMaterial( materials ) );
         this.mesh.scale.x = - 1;    // flipSided = true analogon
+        this.mesh.position.y = -200;
     },
     
     initLevels: function(){

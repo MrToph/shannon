@@ -25,3 +25,4 @@
 {"ts":1357080398620,"patch":[[{"diffs":[[0,"else {p1 = 0"],[1,";"],[0,"}      // AI"]],"start1":4523,"start2":4523,"length1":24,"length2":25},{"diffs":[[0," {p2 = 0"],[1,";"],[0,"}     //"]],"start1":4596,"start2":4596,"length1":16,"length2":17}]],"length":5311,"saved":false}
 {"ts":1357080653437,"patch":[[{"diffs":[[0,") {\n"],[-1,"return;\n"],[0,"\tgui"]],"start1":4745,"start2":4745,"length1":16,"length2":8}]],"length":5303,"saved":false}
 {"ts":1357080763322,"patch":[[{"diffs":[[0,"ame("],[-1,"true, false"],[1,"\"Human\", \"AI\""],[0,");\n}"]],"start1":1873,"start2":1873,"length1":19,"length2":21}]],"length":5305,"saved":false}
+{"contributors":[],"silentsave":false,"ts":1357218739739,"patch":[[{"diffs":[[0,"ht, 1, 1"],[-1,"00"],[1,"1"],[0,"00 );\n\tr"]],"start1":4287,"start2":4287,"length1":18,"length2":17},{"diffs":[[0,"troller."],[-1,"ini"],[1,"restar"],[0,"tLevel(p"]],"start1":4662,"start2":4662,"length1":19,"length2":22}]],"length":5307,"saved":false}

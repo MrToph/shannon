@@ -3,7 +3,7 @@ Game.Representation = new Class({
     initialize: function(model){
         this.model = model;
         // init the WebGL renderer and append it to the Dom
-        this.renderer = new THREE.CanvasRenderer({
+        this.renderer = new THREE.WebGLRenderer({
     		antialias	: true
     	});
     	this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -21,10 +21,8 @@ Game.Representation = new Class({
         // create camera
         var fov = 70.11;
         this.camDistance = 100;
-        this.camera    = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-        this.camera.position.x = this.camDistance;
-        this.camera.position.z = this.camDistance;
-        this.camera.position.y = this.camDistance;
+        this.camera    = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 1, 2000 );
+
         this.camera.lookAt(new THREE.Vector3(0,0,0));
         
         //add camera to scene
@@ -44,7 +42,7 @@ Game.Representation = new Class({
         this.initMaterials();
         
         // add skybox
-        this.skybox = new Game.Skybox(300);
+        this.skybox = new Game.Skybox(1000);
         this.scene.add(this.skybox.getMesh());
     },
     
@@ -65,9 +63,9 @@ Game.Representation = new Class({
     },
     
     initMaterials: function(){
-        this.sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x151515, wireframe: false, overdraw: true });
-        this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
-        this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, wireframe: false });
+        this.sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x151515, wireframe: true, overdraw: false });
+        this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
+        this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
     },
     
     destroyWorld: function(human1, human2){

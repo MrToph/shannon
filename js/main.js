@@ -6,8 +6,8 @@ var stats;
 
 var isUserInteracting = false,
     onPointerDownPointerX = 0, onPointerDownPointerY = 0,
-	lon = 90, onPointerDownLon = 0,
-	lat = 22, onPointerDownLat = 0,		// set lat to 40 to change the cameras position from start
+	lon = 55, onPointerDownLon = 0,
+	lat = 0, onPointerDownLat = 0,		// set lat to 40 to change the cameras position from start
     fov = 70.711;
 
 // ## bootstrap functions
@@ -132,22 +132,25 @@ function onDocumentMouseWheel( event ) {
 
 	if ( event.wheelDeltaY ) {
 
-		fov -= event.wheelDeltaY * 0.05;
+		fov -= event.wheelDeltaY * 0.025;
 
 	// Opera / Explorer 9
 
 	} else if ( event.wheelDelta ) {
 
-		fov -= event.wheelDelta * 0.05;
+		fov -= event.wheelDelta * 0.025;
 
 	// Firefox
 
 	} else if ( event.detail ) {
 
-		fov += event.detail * 1.0;
+		fov += event.detail * 0.50;
 	}
+    
+    if(fov < 2) fov = 2;
+    if(fov > 90) fov = 90;
 
-	representation.getCamera().projectionMatrix = THREE.Matrix4.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 10000 );
+	representation.getCamera().projectionMatrix = new THREE.Matrix4().makePerspective( fov, window.innerWidth / window.innerHeight, 1, 2000 );
 	render();
 }
 
@@ -172,11 +175,8 @@ function createGUI() {
 	height : 3 * 32 - 1
 	}); 
 	
-	var params = {rotation: 1, player1AI : "Human", player2AI : "AI", restart : function(){}}; 
-	gui.add(params, 'rotation').min(1).max(24).step(1).name("Rotate Cube").onChange(function(){
-		world.rotateGame(params.rotation);
-	});
-	
+	var params = {player1AI : "Human", player2AI : "AI", restart : function(){}}; 
+
 	gui.add(params, 'player1AI', [ 'Human', 'AI' ] ).name("Player 1");
 	gui.add(params, 'player2AI', [ 'Human', 'AI' ] ).name("Player 2");
 	
