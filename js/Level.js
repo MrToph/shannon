@@ -9,6 +9,7 @@ Game.Level = new Class({
         this.decodeStringToGraph();
         this.determineSphereRadius();
         this.determineVertexPositions();
+        this.createEdges();
     },
     
     decodeStringToGraph: function(){
@@ -32,7 +33,7 @@ Game.Level = new Class({
     },
     
     determineSphereRadius: function(){
-        this.sphereRadius = this.graph.dim;
+        this.sphereRadius = 10*Math.log(1 + this.graph.dim);
     },
     
     determineVertexPositions: function(){
@@ -42,15 +43,7 @@ Game.Level = new Class({
 //% Output is a 3xN matrix of points for X,Y,Z.
 //%
 //% Based on python code from Patric Boucher on http://www.xsi-blog.com
-//    inc = math.pi * (3 - math.sqrt(5))
-//    off = 2 / N
-//    for k in range(0, N):
-//        y = k * off - 1 + (off / 2)
-//        r = math.sqrt(1 - y*y)
-//        phi = k * inc
-//        pts.append([math.cos(phi)*r, y, math.sin(phi)*r])
-// 
-//    return pts
+
         this.vertexPositions = [];
         var n = this.graph.dim;
         var inc = Math.PI * (3-Math.sqrt(5));
@@ -61,6 +54,22 @@ Game.Level = new Class({
             var r = Math.sqrt(1 - y*y);
             var phi = k * inc;
             this.vertexPositions.push(new THREE.Vector3(Math.cos(phi)*r, y, Math.sin(phi)*r));
+        }
+    },
+    
+    createEdges: function(){
+        var dim = this.graph.dim;
+        for(var i = 1; i <= dim; i++){
+            for(var j = i+1; j <= dim; j++){         // 1,2 1,3 .. 1,n 2,3 ...
+                var edgeAmount = this.graph.get(i,j);
+                if(edgeAmount < 1){
+                    continue;
+                }
+                
+                for(var c = 0; c < edgeAmount; c++){
+                    this.edges.push(new Game.EdgeModel(i,j, this.vertexPositions[i-1].clone().multiplyScalar(this.sphereRadius), this.vertexPositions[j-1].clone().multiplyScalar(this.sphereRadius)));       // i < j for all i,j; -1 because vertexPosition starts at 0
+                }
+            }
         }
     },
     

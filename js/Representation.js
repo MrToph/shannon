@@ -3,7 +3,7 @@ Game.Representation = new Class({
     initialize: function(model){
         this.model = model;
         // init the WebGL renderer and append it to the Dom
-        this.renderer = new THREE.WebGLRenderer({
+        this.renderer = new THREE.CanvasRenderer({
     		antialias	: true
     	});
     	this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -66,6 +66,11 @@ Game.Representation = new Class({
         this.sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x151515, wireframe: true, overdraw: false });
         this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
         this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+        
+        //this.eNotTakenMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth:10 });
+        this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee, wireframe: true });
+        this.eTakenMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+        this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
     },
     
     destroyWorld: function(human1, human2){
@@ -80,7 +85,10 @@ Game.Representation = new Class({
         this.vertices = [];
           
         for(var i = 0, l = this.edges.length; i < l; i++){
-            this.scene.remove(this.edges[i]);
+            this.scene.remove(this.edges[i].mesh);
+            this.edges[i].mesh = null;
+            this.edges[i].geom.dispose();
+            this.edges[i].geom = null;
             this.edges[i] = null;
         }
         this.edges = [];
@@ -88,7 +96,7 @@ Game.Representation = new Class({
     
     createWorld: function(human1, human2){
         var lvl = this.model.curLevel;
-        var radius = 5*lvl.sphereRadius;
+        var radius = lvl.sphereRadius;
         this.camDistance = 4*radius;
         
         var geom = new THREE.SphereGeometry(radius, 18, 18);
@@ -108,6 +116,13 @@ Game.Representation = new Class({
             
             this.scene.add(vertex);
             this.vertices[i] = vertex;
+        }
+        
+        var edges = lvl.edges;
+        for(var i = 0, l = edges.length; i < l; i++){
+            edges[i].createMesh(this.eNotTakenMaterial, this.eLineMaterial);
+            //edges[i].mesh.scale.multiplyScalar(2);
+            this.scene.add(edges[i].mesh);
         }
     },
     
