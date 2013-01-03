@@ -67,7 +67,7 @@ Game.Level = new Class({
                 }
                 
                 for(var c = 0; c < edgeAmount; c++){
-                    this.edges.push(new Game.EdgeModel(i,j, this.vertexPositions[i-1].clone().multiplyScalar(this.sphereRadius), this.vertexPositions[j-1].clone().multiplyScalar(this.sphereRadius)));       // i < j for all i,j; -1 because vertexPosition starts at 0
+                    this.edges.push(new Game.EdgeModel(i,j, this.vertexPositions[i-1].clone().multiplyScalar(this.sphereRadius + Game.ALIGNOFFSET), this.vertexPositions[j-1].clone().multiplyScalar(this.sphereRadius + Game.ALIGNOFFSET)));       // i < j for all i,j; -1 because vertexPosition starts at 0
                 }
             }
         }

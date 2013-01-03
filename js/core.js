@@ -1,2 +1,4 @@
 var Game = {};
 Game.NUMINTERPOLATIONPOINTS = 11;
+Game.CUBESIZE = 2;
+Game.ALIGNOFFSET = Math.sqrt(2)*Game.CUBESIZE/2 + 0.05;

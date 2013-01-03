@@ -27,8 +27,24 @@ Game.EdgeModel = new Class({
     },
     
     computeInterpolationPoints: function(){
-        // drawing lines example: https://github.com/mrdoob/three.js/wiki/Drawing-lines
-        var path = new THREE.SplineCurve3([this.pos1, new THREE.Vector3(), this.pos2]);
+        /* drawing lines example: https://github.com/mrdoob/three.js/wiki/Drawing-lines
+        
+         * -- 3d classes --
+         * THREE.LineCurve3
+         * THREE.QuadraticBezierCurve3
+         * THREE.CubicBezierCurve3
+         * THREE.SplineCurve3
+         * THREE.ClosedSplineCurve3
+        */
+        
+        var mid = this.pos1.clone().addSelf(this.pos2);
+        mid = mid.multiplyScalar(this.pos1.length()/mid.length() * 1.1);
+        
+        var path = new THREE.Curve();
+        //path = new THREE.SplineCurve3([this.pos1.clone(), mid, this.pos2.clone()]);
+        path = new THREE.QuadraticBezierCurve3(this.pos1.clone(), mid, this.pos2.clone());
+        console.log(path.getPoint(0));
+        console.log(path.getTangentAt(0));
 //        this.geom = new THREE.Geometry();
 //        for(var i = 0, l = this.interpolationPoints.length; i < l; i++){
 //            var t = 1.0/((l-1)) * i;

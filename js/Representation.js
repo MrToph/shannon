@@ -63,7 +63,7 @@ Game.Representation = new Class({
     },
     
     initMaterials: function(){
-        this.sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x151515, wireframe: true, overdraw: false });
+        this.sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x151515, wireframe: true, overdraw: true });
         this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
         this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
         
@@ -103,7 +103,7 @@ Game.Representation = new Class({
         this.sphere = new THREE.Mesh(geom, this.sphereMaterial);
         this.scene.add(this.sphere);
         
-        var geom = new THREE.CubeGeometry(2, 2, 2, 1, 1, 1);
+        var geom = new THREE.CubeGeometry(Game.CUBESIZE, Game.CUBESIZE, Game.CUBESIZE, 1, 1, 1);
         for(var i = 0, l = lvl.graph.dim; i < l; i++){
             var vertex;
             if(i == 0 || i === l-1){
@@ -112,7 +112,7 @@ Game.Representation = new Class({
             else{
                 vertex = new THREE.Mesh(geom, this.vertexMaterial);
             }
-            vertex.position = lvl.vertexPositions[i].multiplyScalar(radius + Math.sqrt(2) + 0.05);
+            vertex.position = lvl.vertexPositions[i].multiplyScalar(radius + Game.ALIGNOFFSET);
             
             this.scene.add(vertex);
             this.vertices[i] = vertex;

@@ -6,7 +6,7 @@ Game.Skybox = new Class({
     	//var urls	= Game.Utils.UrlsPx("images/skybox/mountain/", ".jpg");
         
     	var urls	= Game.Utils.UrlsPx("images/skybox/castle/", ".jpg");
-        var urls    = Game.Utils.UrlsPx("images/skybox/moonlight/", ".jpg");
+        //var urls    = Game.Utils.UrlsPx("images/skybox/moonlight/", ".jpg");
         //var urls    = Game.Utils.UrlsPx("images/skybox/colors/", ".jpg");
         var urls    = Game.Utils.UrlsPx("images/skybox/interstellar/", ".jpg");
         
@@ -31,7 +31,7 @@ Game.Skybox = new Class({
 	
         this.mesh = new THREE.Mesh( new THREE.CubeGeometry( size, size, size, 7, 7, 7 ), new THREE.MeshFaceMaterial( materials ) );
         this.mesh.scale.x = - 1;    // flipSided = true analogon
-        this.mesh.position.y = -200;
+        //this.mesh.position.y = -200;
     },
     
     initLevels: function(){
