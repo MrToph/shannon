@@ -71,7 +71,7 @@ Game.Representation = new Class({
 			earthTexture.needsUpdate = true;
 
 		} );
-        loader.load( 'images/textures/earth_poison_small.jpg' );
+        loader.load( 'images/textures/earth_poison.jpg' );
 		this.sphereMaterial = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
         
         this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
@@ -108,7 +108,7 @@ Game.Representation = new Class({
         var radius = lvl.sphereRadius;
         this.camDistance = 4*radius;
         
-        var geom = new THREE.SphereGeometry(radius, 12, 12);
+        var geom = new THREE.SphereGeometry(radius, Game.SPHERESEGMENTS, Game.SPHERESEGMENTS);
         this.sphere = new THREE.Mesh(geom, this.sphereMaterial);
         this.scene.add(this.sphere);
         

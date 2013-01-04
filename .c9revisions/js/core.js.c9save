@@ -7,3 +7,10 @@
 {"ts":1357257306838,"patch":[[{"diffs":[[0,"OINTS = "],[-1,"2"],[1,"1"],[0,";\nGame.C"]],"start1":37,"start2":37,"length1":17,"length2":17}]],"length":122,"saved":false}
 {"ts":1357258515860,"patch":[[{"diffs":[[0,"OINTS = "],[1,"3"],[0,"1;\nGame."]],"start1":37,"start2":37,"length1":16,"length2":17}]],"length":123,"saved":false}
 {"ts":1357260937258,"patch":[[{"diffs":[[0,"S = "],[-1,"31"],[1,"6"],[0,";\nGa"]],"start1":41,"start2":41,"length1":10,"length2":9}]],"length":122,"saved":false}
+{"ts":1357262014064,"patch":[[{"diffs":[[0,"S = "],[-1,"6"],[1,"2"],[0,";\nGa"]],"start1":41,"start2":41,"length1":9,"length2":9}]],"length":122,"saved":false}
+{"ts":1357262168831,"patch":[[{"diffs":[[0,"OINTS = "],[1,"6;\nGame.CUBESEGMENTS = 1"],[0,"2;\nGame."]],"start1":37,"start2":37,"length1":16,"length2":40}]],"length":146,"saved":false}
+{"ts":1357262204896,"patch":[[{"diffs":[[0,"6;\nGame."],[-1,"CUB"],[1,"SPHER"],[0,"ESEGMENT"]],"start1":45,"start2":45,"length1":19,"length2":21}]],"length":148,"saved":false}
+{"contributors":[],"silentsave":false,"ts":1357319277101,"patch":[[{"diffs":[[0,"OINTS = "],[1,"3"],[0,"6;\nGame."]],"start1":37,"start2":37,"length1":16,"length2":17}]],"length":149,"saved":false}
+{"ts":1357319549391,"patch":[[{"diffs":[[0,"S = "],[-1,"3"],[0,"6;\nG"]],"start1":41,"start2":41,"length1":9,"length2":8}]],"length":148,"saved":false}
+{"ts":1357320046226,"patch":[[{"diffs":[[0,"e = {};\n"],[1,"Game.EPS = 10^(-6);\n"],[0,"Game.NUM"]],"start1":7,"start2":7,"length1":16,"length2":36}]],"length":168,"saved":false}
+{"ts":1357320058789,"patch":[[{"diffs":[[0,"S = "],[-1,"10^("],[1,"Math.pow(10, "],[0,"-6);"]],"start1":22,"start2":22,"length1":12,"length2":21}]],"length":177,"saved":false}

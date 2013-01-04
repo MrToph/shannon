@@ -64,3 +64,9 @@
 {"ts":1357261439102,"patch":[[{"diffs":[[0,"es[i];  "],[1,"// save reference for deleting"],[0,"\n       "]],"start1":5351,"start2":5351,"length1":16,"length2":46}]],"length":5843,"saved":false}
 {"ts":1357261599518,"patch":[[{"diffs":[[0,"is.edges"],[-1,"."],[0,"[i] = ed"]],"start1":5329,"start2":5329,"length1":17,"length2":16}]],"length":5838,"saved":false}
 {"ts":1357261775000,"patch":[[{"diffs":[[0,"h_poison"],[1,"_small"],[0,".jpg' );"]],"start1":2841,"start2":2841,"length1":16,"length2":22}]],"length":5844,"saved":false}
+{"ts":1357262025352,"patch":[[{"diffs":[[0,"us, "],[-1,"12, 12"],[1,"6, 6"],[0,");\n "]],"start1":4320,"start2":4320,"length1":14,"length2":12}]],"length":5842,"saved":false}
+{"ts":1357262151475,"patch":[[{"diffs":[[0,"us, "],[-1,"6, 6"],[1,"12, 12"],[0,");\n "]],"start1":4320,"start2":4320,"length1":12,"length2":14}]],"length":5844,"saved":false}
+{"ts":1357262191613,"patch":[[{"diffs":[[0,"us, "],[-1,"12, 12"],[1,"Game.SPHERESEGMENTS, Game.SPHERESEGMENTS"],[0,");\n "]],"start1":4320,"start2":4320,"length1":14,"length2":48}]],"length":5878,"saved":false}
+{"ts":1357262253715,"patch":[[{"diffs":[[0,"ison"],[-1,"_small"],[0,".jpg"]],"start1":2845,"start2":2845,"length1":14,"length2":8}]],"length":5872,"saved":false}
+{"ts":1357262283699,"patch":[[{"diffs":[[0,"eframe: "],[-1,"tru"],[1,"fals"],[0,"e });\n  "]],"start1":3256,"start2":3256,"length1":19,"length2":20}]],"length":5873,"saved":false}
+{"ts":1357262330409,"patch":[[{"diffs":[[0,"000, wireframe: "],[-1,"fals"],[1,"tru"],[0,"e });\n        th"]],"start1":3248,"start2":3248,"length1":36,"length2":35}]],"length":5872,"saved":false}
