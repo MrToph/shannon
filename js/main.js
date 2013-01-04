@@ -13,7 +13,13 @@ var isUserInteracting = false,
 // ## bootstrap functions
 if ( ! Detector.webgl ){
 	// test if webgl is supported
-	Detector.addGetWebGLMessage();
+	//Detector.addGetWebGLMessage();
+    
+    // Run it in canvas
+    // initialiaze everything
+    init();
+	// make it move			
+	animate();	
 }else{
 	// initialiaze everything
 	init();

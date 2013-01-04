@@ -63,14 +63,23 @@ Game.Representation = new Class({
     },
     
     initMaterials: function(){
-        this.sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x151515, wireframe: true, overdraw: true });
+        // based on http://mrdoob.github.com/three.js/examples/canvas_geometry_earth.html
+		var earthTexture = new THREE.Texture();
+		var loader = new THREE.ImageLoader();
+		loader.addEventListener( 'load', function ( event ) {
+			earthTexture.image = event.content;
+			earthTexture.needsUpdate = true;
+
+		} );
+        loader.load( 'images/textures/earth_poison_small.jpg' );
+		this.sphereMaterial = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
+        
         this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
         this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
         
-        //this.eNotTakenMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth:10 });
-        this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee, wireframe: true });
-        this.eTakenMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
-        this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+        this.eTakenMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+        this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     },
     
     destroyWorld: function(human1, human2){
@@ -99,14 +108,14 @@ Game.Representation = new Class({
         var radius = lvl.sphereRadius;
         this.camDistance = 4*radius;
         
-        var geom = new THREE.SphereGeometry(radius, 18, 18);
+        var geom = new THREE.SphereGeometry(radius, 12, 12);
         this.sphere = new THREE.Mesh(geom, this.sphereMaterial);
         this.scene.add(this.sphere);
         
         var geom = new THREE.CubeGeometry(Game.CUBESIZE, Game.CUBESIZE, Game.CUBESIZE, 1, 1, 1);
         for(var i = 0, l = lvl.graph.dim; i < l; i++){
             var vertex;
-            if(i == 0 || i === l-1){
+            if(i === 0 || i === l-1){
                 vertex = new THREE.Mesh(geom, this.specialVertexMaterial);
             }
             else{
@@ -123,6 +132,8 @@ Game.Representation = new Class({
             edges[i].createMesh(this.eNotTakenMaterial, this.eLineMaterial);
             //edges[i].mesh.scale.multiplyScalar(2);
             this.scene.add(edges[i].mesh);
+            
+            this.edges[i] = edges[i];  // save reference for deleting
         }
     },
     

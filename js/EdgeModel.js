@@ -37,22 +37,20 @@ Game.EdgeModel = new Class({
          * THREE.ClosedSplineCurve3
         */
         
+        // good website for some intuition http://www.movable-type.co.uk/scripts/latlong.html => http://mathforum.org/library/drmath/view/51822.html
         var mid = this.pos1.clone().addSelf(this.pos2);
-        mid = mid.multiplyScalar(this.pos1.length()/mid.length() * 1.1);
+        mid = mid.multiplyScalar((this.pos1.length()/mid.length()) * 1.1);
         
         var path = new THREE.Curve();
-        //path = new THREE.SplineCurve3([this.pos1.clone(), mid, this.pos2.clone()]);
-        path = new THREE.QuadraticBezierCurve3(this.pos1.clone(), mid, this.pos2.clone());
-        console.log(path.getPoint(0));
-        console.log(path.getTangentAt(0));
+        path = new THREE.SplineCurve3([this.pos1.clone(), mid, this.pos2.clone()]);
+        //path = new THREE.QuadraticBezierCurve3(this.pos1.clone(), mid, this.pos2.clone());
+
 //        this.geom = new THREE.Geometry();
 //        for(var i = 0, l = this.interpolationPoints.length; i < l; i++){
 //            var t = 1.0/((l-1)) * i;
 //            this.geom.vertices.push(path.getPoint(t));
 //        }
         this.geom = new THREE.TubeGeometry(path, Game.NUMINTERPOLATIONPOINTS, 0.4, 4, false);
-
-        console.log(path.getPoint(0));
     },
 
 });

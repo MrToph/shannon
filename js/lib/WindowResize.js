@@ -31,7 +31,7 @@ WindowResize	= function(renderer, camera){
 		// if(typeof(world) != "undefined")
 		// {
 		// }
-	}
+	};
 	// bind the resize event
 	window.addEventListener('resize', callback, false);
 	// return .stop() the function to stop watching window resize
@@ -43,4 +43,4 @@ WindowResize	= function(renderer, camera){
 			window.removeEventListener('resize', callback);
 		}
 	};
-}
+};

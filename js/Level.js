@@ -1,6 +1,11 @@
 Game.Level = new Class({
     initialize: function(graphAsStringRepres){
         this.stringRepresentation = graphAsStringRepres;
+        this.stringRepresentation = this.stringRepresentation.replace(/ /g, "");    // remove all whitespaces
+        while(this.stringRepresentation.charAt(this.stringRepresentation.length - 1) == ";") this.stringRepresentation = this.stringRepresentation.slice(0, -1);        // remove ending in ;;;;;
+        
+        console.log(this.stringRepresentation);
+        
         this.edges = [];
         this.graph = null;
         this.sphereRadius = 0;
@@ -13,13 +18,14 @@ Game.Level = new Class({
     },
     
     decodeStringToGraph: function(){
+        
         var arr = this.stringRepresentation.split(";");
         if(arr.length < 1){
             return;
         }
         var dim = parseInt(arr[0]);
         if((arr.length-1) != ((dim+1)*dim)/2 - dim){     // symmetric and no diagonal (-dim)
-            console.log("in Level:decodeStringToGraph: sizes do not match. Expected: " + ( ((dim+1)*dim)/2 - dim) + "/tgot: " + (arr.length-1));
+            console.log("in Level:decodeStringToGraph: sizes do not match. Expected: " + ( ((dim+1)*dim)/2 - dim) + "got: " + (arr.length-1));
             return;
         }
 

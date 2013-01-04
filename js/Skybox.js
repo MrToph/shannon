@@ -30,7 +30,7 @@ Game.Skybox = new Class({
 		];
 	
         this.mesh = new THREE.Mesh( new THREE.CubeGeometry( size, size, size, 7, 7, 7 ), new THREE.MeshFaceMaterial( materials ) );
-        this.mesh.scale.x = - 1;    // flipSided = true analogon
+        this.mesh.scale.x = -1;    // flipSided = true analogon
         //this.mesh.position.y = -200;
     },
     
