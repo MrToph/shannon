@@ -1,10 +1,6 @@
 Game.Level = new Class({
     initialize: function(graphAsStringRepres){
-        this.stringRepresentation = graphAsStringRepres;
-        this.stringRepresentation = this.stringRepresentation.replace(/ /g, "");    // remove all whitespaces
-        while(this.stringRepresentation.charAt(this.stringRepresentation.length - 1) == ";") this.stringRepresentation = this.stringRepresentation.slice(0, -1);        // remove ending in ;;;;;
-        
-        console.log(this.stringRepresentation);
+        this.stringRepresentation = Game.Game.standarizeGraphString(graphAsStringRepres);
         
         this.edges = [];
         this.graph = null;
@@ -21,12 +17,12 @@ Game.Level = new Class({
         
         var arr = this.stringRepresentation.split(";");
         if(arr.length < 1){
-            return;
+            return false;
         }
         var dim = parseInt(arr[0]);
         if((arr.length-1) != ((dim+1)*dim)/2 - dim){     // symmetric and no diagonal (-dim)
             console.log("in Level:decodeStringToGraph: sizes do not match. Expected: " + ( ((dim+1)*dim)/2 - dim) + "got: " + (arr.length-1));
-            return;
+            return false;
         }
 
         this.graph = new Game.Graph(dim);
@@ -36,6 +32,7 @@ Game.Level = new Class({
                 this.graph.set(i,j, parseInt(arr[c++]));
             }
         }
+        return true;
     },
     
     determineSphereRadius: function(){
@@ -73,7 +70,7 @@ Game.Level = new Class({
                 }
                 
                 for(var c = 0; c < edgeAmount; c++){
-                    this.edges.push(new Game.EdgeModel(i,j, this.vertexPositions[i-1].clone().multiplyScalar(this.sphereRadius + Game.ALIGNOFFSET), this.vertexPositions[j-1].clone().multiplyScalar(this.sphereRadius + Game.ALIGNOFFSET)));       // i < j for all i,j; -1 because vertexPosition starts at 0
+                    this.edges.push(new Game.EdgeModel(i,j, this.vertexPositions[i-1].clone().multiplyScalar(this.sphereRadius + Game.ALIGNOFFSET), this.vertexPositions[j-1].clone().multiplyScalar(this.sphereRadius + Game.ALIGNOFFSET), c));       // i < j for all i,j; -1 because vertexPosition starts at 0
                 }
             }
         }

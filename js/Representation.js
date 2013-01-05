@@ -73,12 +73,13 @@ Game.Representation = new Class({
 		} );
         loader.load( 'images/textures/earth_poison.jpg' );
 		this.sphereMaterial = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
+        //this.sphereMaterial = new THREE.MeshBasicMaterial( { overdraw: false, wireframe: true } );
         
         this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
         this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
         
         this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-        this.eTakenMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+        this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: false });
         this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     },
     

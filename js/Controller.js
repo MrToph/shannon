@@ -14,6 +14,7 @@ Game.Controller = new Class({
     
     initLevel: function(graphAsStringRepres){
         this.model.initLevel(graphAsStringRepres);
+        this.setUrl(this.model.curLevel.stringRepresentation);
     },
     
     restartLevel: function(isHuman1, isHuman2){
@@ -32,6 +33,10 @@ Game.Controller = new Class({
         // valid move => do it
         
         // set up next players turn
+    },
+    
+    setUrl: function(s){
+        window.location.hash = s;  
     },
     
     onEndLevelAnimFinished: function(){     // this points to representation

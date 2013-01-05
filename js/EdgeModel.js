@@ -1,8 +1,9 @@
 Game.EdgeModel = new Class({
-    initialize: function(v1, v2, pos3D1, pos3D2){
+    initialize: function(v1, v2, pos3D1, pos3D2, nth){
         this.mesh = null, this.geom = null;
         this.v1 = v1, this.v2 = v2;
         this.pos1 = pos3D1, this.pos2 = pos3D2;
+        this.nth = parseInt(nth);                         // wie vielte edge von v1 nach v2 (0..graph[v1][v2]-1)
         //this.interpolationPoints = new Array(Game.NUMINTERPOLATIONPOINTS);
         
         this.computeInterpolationPoints();
@@ -38,7 +39,7 @@ Game.EdgeModel = new Class({
         */
         
         // good website for some intuition http://www.movable-type.co.uk/scripts/latlong.html => http://mathforum.org/library/drmath/view/51822.html
-        var points = new Array(20);
+        var points = new Array(100);    // might be overkill, but doesnt lower performance, because it doesnt affect the visaul tubemesh (these are not the segments of the tube!) // how many points does the spline have to interpolate, the more the better it approximates a grand arch
         var dir1 = this.pos1.clone().normalize();
         var dir2 = this.pos2.clone().normalize();
         var normal = new THREE.Vector3().cross(dir1, dir2);     // orthogonal to dir1, dir2
@@ -70,24 +71,22 @@ Game.EdgeModel = new Class({
         }
         normal.normalize();
         
-        
+        var pos1L = this.pos1.length();
         var step = 1/(points.length - 1);
         var t = 0;
+        var sign = (this.nth % 2 === 0) ? -1 : 1;     // alignment left or right from the 0th line (left, right depend on normal)
+        var offsetMultiplier = 1.5* Math.floor((this.nth+1) / 2);
         for(var i = 0, l = points.length; i < l; i++){
             points[i] = new THREE.Vector3().add(dir1.clone().multiplyScalar(t), dir2.clone().multiplyScalar(1-t));
-            points[i].multiplyScalar(this.pos1.length()/points[i].length());
+            points[i].multiplyScalar(pos1L/points[i].length());
+            
+            var bow = -4*t*(t-1);// http://www.wolframalpha.com/input/?i=-4t^2+%2B+4t
+            points[i].addSelf(normal.clone().multiplyScalar(sign * offsetMultiplier * bow));
             t += step;
         }
         
         var path = new THREE.Curve();
         path = new THREE.SplineCurve3(points);
-        //path = new THREE.QuadraticBezierCurve3(this.pos1.clone(), mid, this.pos2.clone());
-
-//        this.geom = new THREE.Geometry();
-//        for(var i = 0, l = this.interpolationPoints.length; i < l; i++){
-//            var t = 1.0/((l-1)) * i;
-//            this.geom.vertices.push(path.getPoint(t));
-//        }
         this.geom = new THREE.TubeGeometry(path, Game.NUMINTERPOLATIONPOINTS, 0.4, 4, false);
     },
     

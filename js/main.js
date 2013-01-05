@@ -35,7 +35,7 @@ function init() {
 	document.body.appendChild( container );
 
 	// start game
-    var model = new Game.Game();
+    var model = new Game.Game(location.hash.substring(1));
     representation = new Game.Representation(model);
     controller = new Game.Controller(model);            // in this order, because controller needs to listen to representaitons events
     
@@ -57,10 +57,12 @@ function init() {
 	document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
 	document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
     
+    // add on hash change event
+    window.onhashchange = locationHashChanged;
+    
     //representation.endLevelAnim();
     guiRestartGame("Human", "AI");
-}
-			
+}			
 
 // ## Animate and Display the Scene
 function animate() {                         
@@ -158,6 +160,15 @@ function onDocumentMouseWheel( event ) {
 
 	representation.getCamera().projectionMatrix = new THREE.Matrix4().makePerspective( fov, window.innerWidth / window.innerHeight, 1, 2000 );
 	render();
+}
+
+function locationHashChanged() {
+    var s = location.hash.substring(1);
+    if(Game.Game.isValidGraphString(s)){
+        representation.destroyWorld();
+        controller.initLevel(location.hash.substring(1));
+        representation.createWorld();
+    }
 }
 
 function guiRestartGame(p1S, p2S) {

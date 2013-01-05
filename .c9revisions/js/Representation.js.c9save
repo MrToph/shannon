@@ -70,3 +70,11 @@
 {"ts":1357262253715,"patch":[[{"diffs":[[0,"ison"],[-1,"_small"],[0,".jpg"]],"start1":2845,"start2":2845,"length1":14,"length2":8}]],"length":5872,"saved":false}
 {"ts":1357262283699,"patch":[[{"diffs":[[0,"eframe: "],[-1,"tru"],[1,"fals"],[0,"e });\n  "]],"start1":3256,"start2":3256,"length1":19,"length2":20}]],"length":5873,"saved":false}
 {"ts":1357262330409,"patch":[[{"diffs":[[0,"000, wireframe: "],[-1,"fals"],[1,"tru"],[0,"e });\n        th"]],"start1":3248,"start2":3248,"length1":36,"length2":35}]],"length":5872,"saved":false}
+{"contributors":[],"silentsave":false,"ts":1357322364847,"patch":[[{"diffs":[[0,"REE."],[-1,"Canvas"],[1,"WebGL"],[0,"Rend"]],"start1":209,"start2":209,"length1":14,"length2":13}]],"length":5871,"saved":false}
+{"ts":1357322428992,"patch":[[{"diffs":[[0,"w THREE."],[-1,"WebGL"],[1,"Canvas"],[0,"Renderer"]],"start1":205,"start2":205,"length1":21,"length2":22}]],"length":5872,"saved":false}
+{"ts":1357322433024,"patch":[[{"diffs":[[0,"(1000);\n        "],[1,"//"],[0,"this.scene.add(t"]],"start1":1699,"start2":1699,"length1":32,"length2":34}]],"length":5874,"saved":false}
+{"ts":1357322853002,"patch":[[{"diffs":[[0,"(1000);\n        "],[-1,"//"],[0,"this.scene.add(t"]],"start1":1699,"start2":1699,"length1":34,"length2":32}]],"length":5872,"saved":false}
+{"ts":1357343775292,"patch":[[{"diffs":[[0,"verdraw:"],[1," true: wireframe:"],[0," true } "]],"start1":2933,"start2":2933,"length1":16,"length2":33}]],"length":5889,"saved":false}
+{"ts":1357343793275,"patch":[[{"diffs":[[0,"aw: true"],[-1,":"],[1,","],[0," wirefra"]],"start1":2938,"start2":2938,"length1":17,"length2":17}]],"length":5889,"saved":false}
+{"ts":1357343846867,"patch":[[{"diffs":[[0,"g' );\n\t\t"],[1,"//"],[0,"this.sph"]],"start1":2852,"start2":2852,"length1":16,"length2":18},{"diffs":[[0,": true } );\n"],[1,"        this.sphereMaterial = new THREE.MeshBasicMaterial( { overdraw: true, wireframe: true } );\n"],[0,"        \n   "]],"start1":2959,"start2":2959,"length1":24,"length2":122}]],"length":5989,"saved":false}
+{"ts":1357343869836,"patch":[[{"diffs":[[0,"al( { overdraw: "],[-1,"tru"],[1,"fals"],[0,"e, wireframe: tr"]],"start1":3026,"start2":3026,"length1":35,"length2":36}]],"length":5990,"saved":false}
