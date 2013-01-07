@@ -40,17 +40,7 @@ Game.Controller = new Class({
     },
     
     onEndLevelAnimFinished: function(){     // this points to representation
-        var tmp = this.model.curLevel;
-        if(tmp !== null){
-           representation.scene.remove(tmp.spline); 
-        }
-        
-        // init next level
-        this.model.initNextLevel();
-        tmp = this.model.curLevel.spline;
-        
-        console.log(tmp);
-        console.log(tmp.children[0].geometry);
+        // ... do something
         
         representation.nextLevelAnim();
     },

@@ -3,6 +3,7 @@ var container;
 var representation, controller;
 var gui;
 var stats;
+var projector;
 
 var isUserInteracting = false,
     onPointerDownPointerX = 0, onPointerDownPointerY = 0,
@@ -56,6 +57,7 @@ function init() {
 	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
 	document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
+    projector = new THREE.Projector();
     
     // add on hash change event
     window.onhashchange = locationHashChanged;
@@ -100,23 +102,27 @@ function onDocumentMouseDown( event ) {
 
 	onPointerDownLon = lon;
 	onPointerDownLat = lat;
+    
+    var camera = representation.getCamera();
 	
-//	// Shoot ray through the scene [example from http://mrdoob.github.com/three.js/examples/canvas_interactive_cubes.html]
-//	var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
-//	projector.unprojectVector( vector, camera );
-//
-//	var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
-//
-//	var intersects = ray.intersectObjects( world.gameMeshSphereArr() );
-//
-//	if ( intersects.length > 0 ) {
-//		world.clickedOnSphere(intersects[0].object.index);
-//		// var particle = new THREE.Particle( particleMaterial );
-//		// particle.position = intersects[ 0 ].point;
-//		// particle.scale.x = particle.scale.y = 8;
-//		// scene.add( particle );
-//
-//	}
+	// Shoot ray through the scene [example from http://mrdoob.github.com/three.js/examples/canvas_interactive_cubes.html]
+	var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
+	projector.unprojectVector( vector, camera );
+    
+	var ray = new THREE.Raycaster( camera.position, vector.subSelf( camera.position ).normalize() );
+
+	var intersects = ray.intersectObjects( representation.getUnmarkedEdgesMeshes(), true);      // true = recursive flag because edges are Object3D created from THREE.SceneUtils.createMultiMaterialObject( ), which creates a hierarchical structure,
+
+	if ( intersects.length > 0 ) {
+		//world.clickedOnSphere(intersects[0].object.index);
+//		 var particle = new THREE.Particle( particleMaterial );
+//		 particle.position = intersects[ 0 ].point;
+//		 particle.scale.x = particle.scale.y = 8;
+//		 representation.scene.add( particle );
+        //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff | 0x80000000 );
+        //intersects[ 0 ].object.material = representation.eTakenMaterial;
+        representation.clickedOnMesh(intersects[ 0 ].object);
+	}
 }
 
 function onDocumentMouseMove( event ) {

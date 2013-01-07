@@ -79,7 +79,7 @@ Game.Representation = new Class({
         this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
         
         this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-        this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: false });
+        this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xff6800, wireframe: false });
         this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     },
     
@@ -136,6 +136,75 @@ Game.Representation = new Class({
             
             this.edges[i] = edges[i];  // save reference for deleting
         }
+    },
+    
+    clickedOnMesh: function(obj){
+        
+        // find out what edgeModel was clicked on
+        var edge = null;
+        for(var i = 0, l = this.edges.length; i < l; i++){
+            if(obj.parent == this.edges[i].mesh){
+                edge = this.edges[i];
+                break;
+            }
+        }
+        
+        // already marked
+        if(edge.marked){
+            console.log("edge already marked");
+            return;
+        }
+        
+        this.markEdge(edge.v1, edge.v2, edge);
+    },
+    
+    markEdge: function(v1, v2, edgeModelOpt){
+        // check if we got a concret edgeModel to remove or if we should remove a random one going from v1 to v2
+        if(edgeModelOpt === undefined || edgeModelOpt === null){
+            for(var i = 0, l = this.edges.length; i < l; i++){
+                if(v1 == this.edges[i].v1 && v2 == this.edges[i].v2){
+                    edgeModelOpt = this.edges[i];
+                    break;
+                }
+            }
+        }
+        
+        edgeModelOpt.mesh.children[0].material = this.eTakenMaterial;
+        edgeModelOpt.marked = true;
+        // remove all others going from v1 to v2, because it is unnecessary to join or cut these, because there is already a path
+        // WARNING: we got to call this before renaming the edges due to a join
+        for(var i = 0, l = this.edges.length; i < l; i++){
+            if(v1 == this.edges[i].v1 && v2 == this.edges[i].v2 && this.edges[i] != edgeModelOpt){
+                this.scene.remove(this.edges[i].mesh);
+                this.edges[i].mesh = null;
+                this.edges[i].geom.dispose();
+                this.edges[i].geom = null;
+                this.edges[i] = null;
+            }
+        }
+        
+        // fill empty spaces
+        var newArr = [];
+        for(var i = 0, c = 0, l = this.edges.length; i < l; i++){
+            if(this.edges[i] === null){
+                continue;   
+            }
+            else{
+                newArr[c] = this.edges[i];
+                c++;
+            }
+        }
+        this.edges = newArr;
+    },
+    
+    getUnmarkedEdgesMeshes: function(){
+        var arr = [];
+        for(var i = 0, l = this.edges.length; i < l; i++){
+            if(!this.edges[i].marked){
+                arr.push(this.edges[i].mesh);
+            }
+        }
+        return arr;
     },
     
     endLevelAnim: function(){

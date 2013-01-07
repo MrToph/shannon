@@ -1,6 +1,7 @@
 Game.EdgeModel = new Class({
     initialize: function(v1, v2, pos3D1, pos3D2, nth){
         this.mesh = null, this.geom = null;
+        this.marked = false;
         this.v1 = v1, this.v2 = v2;
         this.pos1 = pos3D1, this.pos2 = pos3D2;
         this.nth = parseInt(nth);                         // wie vielte edge von v1 nach v2 (0..graph[v1][v2]-1)

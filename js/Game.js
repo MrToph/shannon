@@ -16,7 +16,7 @@ Game.Game = new Class({
     
     initLevels: function(){
         var i = 0;
-        this.levels[i++] = "3;6;4;0";
+        this.levels[i++] = "3;1;0;2";
         
         this.levels[i++] = "2;1";
         this.levels[i++] = "3;1;1;1";
