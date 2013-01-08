@@ -79,7 +79,7 @@ Game.Representation = new Class({
         this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
         
         this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-        this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xff6800, wireframe: false });
+        this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, wireframe: false });
         this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     },
     
@@ -155,7 +155,8 @@ Game.Representation = new Class({
             return;
         }
         
-        this.markEdge(edge.v1, edge.v2, edge);
+        //this.markEdge(edge.v1, edge.v2, edge);
+        controller.doMove(edge.v1, edge.v2, edge);
     },
     
     markEdge: function(v1, v2, edgeModelOpt){
@@ -195,6 +196,48 @@ Game.Representation = new Class({
             }
         }
         this.edges = newArr;
+    },
+    
+    cutEdge: function(v1, v2, edgeModelOpt){
+        // check if we got a concret edgeModel to remove or if we should remove a random one going from v1 to v2
+        if(edgeModelOpt === undefined || edgeModelOpt === null){
+            for(var i = 0, l = this.edges.length; i < l; i++){
+                if(v1 == this.edges[i].v1 && v2 == this.edges[i].v2){
+                    edgeModelOpt = this.edges[i];
+                    break;
+                }
+            }
+        }
+
+        this.scene.remove(edgeModelOpt.mesh);
+        edgeModelOpt.mesh = null;
+        edgeModelOpt.geom.dispose();
+        edgeModelOpt.geom = null;
+        //edgeModelOpt = null;      // doesnt work here, because its only a copy of a reference
+
+        
+        // fill empty spaces
+        var newArr = [];
+        for(var i = 0, c = 0, l = this.edges.length; i < l; i++){
+            if(this.edges[i] === null || this.edges[i] === edgeModelOpt){       // we need the comparison to edgeModelOpt here, because edgeModelOpt = null is not sufficient somehow
+                this.edges[i] = null;
+                continue;   
+            }
+            else{
+                newArr[c] = this.edges[i];
+                c++;
+            }
+        }
+        this.edges = newArr;
+    },
+    
+    renameModels: function(v1, v2){
+        // this function is the edgemodel equivalent to joining these two graph vertices
+        for(var i = 0, l = this.edges.length; i < l; i++){
+            if(this.edges[i].containsVertex(v2)){
+                this.edges[i].renameDueToJoin(v2, v1);
+            }
+        }
     },
     
     getUnmarkedEdgesMeshes: function(){

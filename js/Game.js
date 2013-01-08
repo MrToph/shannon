@@ -32,6 +32,14 @@ Game.Game = new Class({
         
     },
     
+    join: function(v1, v2){
+        this.curLevel.graph.join(v1,v2);
+    },
+    
+    cut: function(v1, v2){
+        this.curLevel.graph.cut(v1,v2);
+    },
+    
     initLevel: function(graphAsStringRepres){
         this.curLevel = new Game.Level(graphAsStringRepres);
     },

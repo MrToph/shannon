@@ -117,5 +117,26 @@ Game.EdgeModel = new Class({
 //        }
         this.geom = new THREE.TubeGeometry(path, Game.NUMINTERPOLATIONPOINTS, 0.4, 4, false);
     },
+    
+    containsVertex: function(v){
+        if(v === this.v1 || v === this.v2) return true;
+        return false;
+    },
+    
+    renameDueToJoin: function(origV, newV){
+        if(origV === this.v1){
+            this.v1 = newV;
+        }
+        else if(origV === this.v2){
+            this.v2 = newV;
+        }
+        
+        // sort so v1 < v2
+        if(this.v1 > this.v2){
+            var tmp = this.v2;
+            this.v2 = this.v1;
+            this.v1 = tmp;
+        }
+    }
 
 });
