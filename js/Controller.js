@@ -51,6 +51,16 @@ Game.Controller = new Class({
             representation.cutEdge(v1,v2,edgeOpt);
         }
         
+        var over = this.model.curLevel.graph.getWinner(v1, v2, this.p1Turn);
+        if(over !== 0){
+            if(over === 1){ // join won
+                console.log("JOIN WIN");
+            }
+            else{
+                console.log("CUT WIN");
+            }
+        }
+        
         // set up next players turn
         this.p1Turn = !this.p1Turn;
     },

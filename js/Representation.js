@@ -1,11 +1,20 @@
 Game.Representation = new Class({
     Implements: Events,
-    initialize: function(model){
+    initialize: function(model, webGL){
         this.model = model;
-        // init the WebGL renderer and append it to the Dom
-        this.renderer = new THREE.CanvasRenderer({
-    		antialias	: true
-    	});
+        this.webGL = webGL;
+        
+        if(this.webGL){
+            this.renderer = new THREE.WebGLRenderer({
+                antialias	: true
+        	});
+        }
+        else{
+            this.renderer = new THREE.CanvasRenderer({
+        	    antialias	: true
+        	});
+        }
+        this.initGameVars(this.webGL);
     	this.renderer.setSize( window.innerWidth, window.innerHeight );
     
     
@@ -39,7 +48,7 @@ Game.Representation = new Class({
         this.sphere = null, this.vertices = [], this.edges = [];
     
         
-        this.initMaterials();
+        this.initMaterials(this.webGL);
         
         // add skybox
         this.skybox = new Game.Skybox(1000);
@@ -62,28 +71,48 @@ Game.Representation = new Class({
     	this.camera.lookAt(new THREE.Vector3(0,0,0));
     },
     
-    initMaterials: function(){
-        // based on http://mrdoob.github.com/three.js/examples/canvas_geometry_earth.html
-		var earthTexture = new THREE.Texture();
-		var loader = new THREE.ImageLoader();
-		loader.addEventListener( 'load', function ( event ) {
-			earthTexture.image = event.content;
-			earthTexture.needsUpdate = true;
-
-		} );
-        loader.load( 'images/textures/earth_poison.jpg' );
-		this.sphereMaterial = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
-        //this.sphereMaterial = new THREE.MeshBasicMaterial( { overdraw: false, wireframe: true } );
-        
-        this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
-        this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
-        
-        this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-        this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, wireframe: false });
-        this.eLineMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    initMaterials: function(webGL){
+        if(webGL){
+            // based on http://mrdoob.github.com/three.js/examples/canvas_geometry_earth.html
+        	var earthTexture = new THREE.Texture();
+    		var loader = new THREE.ImageLoader();
+    		loader.addEventListener( 'load', function ( event ) {
+    			earthTexture.image = event.content;
+    			earthTexture.needsUpdate = true;
+    
+    		} );
+            loader.load( 'images/textures/earth_poison.jpg' );
+    		this.sphereMaterial = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
+            //this.sphereMaterial = new THREE.MeshBasicMaterial( { overdraw: false, wireframe: true } );
+            
+            this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
+            this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+            
+            this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+            this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, wireframe: false });
+        }
+        else{
+            // based on http://mrdoob.github.com/three.js/examples/canvas_geometry_earth.html
+    		var earthTexture = new THREE.Texture();
+    		var loader = new THREE.ImageLoader();
+    		loader.addEventListener( 'load', function ( event ) {
+    			earthTexture.image = event.content;
+    			earthTexture.needsUpdate = true;
+    
+    		} );
+            loader.load( 'images/textures/earth_poison.jpg' );
+    		this.sphereMaterial = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
+            //this.sphereMaterial = new THREE.MeshBasicMaterial( { overdraw: false, wireframe: true } );
+            
+            this.vertexMaterial = new THREE.MeshBasicMaterial({ color: 0x662222, wireframe: false });
+            this.specialVertexMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+            
+            this.eNotTakenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+            this.eTakenMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, wireframe: false });
+        }
     },
     
-    destroyWorld: function(human1, human2){
+    destroyWorld: function(){
         // destroy all 
         this.scene.remove(this.sphere);
         this.sphere = null;
@@ -104,7 +133,7 @@ Game.Representation = new Class({
         this.edges = [];
     },
     
-    createWorld: function(human1, human2){
+    createWorld: function(){
         var lvl = this.model.curLevel;
         var radius = lvl.sphereRadius;
         this.camDistance = 4*radius;
@@ -113,7 +142,7 @@ Game.Representation = new Class({
         this.sphere = new THREE.Mesh(geom, this.sphereMaterial);
         this.scene.add(this.sphere);
         
-        var geom = new THREE.CubeGeometry(Game.CUBESIZE, Game.CUBESIZE, Game.CUBESIZE, 1, 1, 1);
+        geom = new THREE.CubeGeometry(Game.CUBESIZE, Game.CUBESIZE, Game.CUBESIZE, 1, 1, 1);
         for(var i = 0, l = lvl.graph.dim; i < l; i++){
             var vertex;
             if(i === 0 || i === l-1){
@@ -248,6 +277,18 @@ Game.Representation = new Class({
             }
         }
         return arr;
+    },
+    
+    initGameVars: function(webGL){
+        if(webGL){
+            Game.NUMINTERPOLATIONPOINTS = 20;
+            Game.SPHERESEGMENTS = 24;
+        }  
+        else{
+            Game.NUMINTERPOLATIONPOINTS = 6;
+            Game.SPHERESEGMENTS = 12;
+            Game.ALIGNOFFSET = Math.sqrt(2)*Game.CUBESIZE/2 + 1.5;
+        }
     },
     
     endLevelAnim: function(){

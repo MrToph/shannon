@@ -1,6 +1,7 @@
 Game.Graph = new Class({            // represents a graph as an adjacency matrix. The graph is symmetric, so we can save some space, if we only store a (upper) triangular matrix.
     initialize: function(amountOfVertices){
         this.dim = amountOfVertices;
+        this.endVertex = this.dim;      // the special end vertex which needs to be connected to vertex 1; it changes with joining vertexes, because the higher one gets joined with the lower one
         this.g = new Array((this.dim*(this.dim+1)) /2);
         for(var i = 0, l = this.g.length; i < l; i++){
             this.g[i] = 0;      // initialize with 0
@@ -52,7 +53,8 @@ Game.Graph = new Class({            // represents a graph as an adjacency matrix
         // dirty, because we can't overload constructors/no polymorphism
         var g = new Game.Graph(0);
         g.dim = this.dim;
-        g.g = this.g.slice();       // copy whole array
+        g.endVertex = g.dim;
+        g.g = this.g.slice(0);       // copy whole array
         return g;
     },
     
@@ -75,12 +77,67 @@ Game.Graph = new Class({            // represents a graph as an adjacency matrix
         this.setUpper(v1, v2, 0);       // not necessary
         
         this.log();
-        
+        if(/*this.endVertex === v1 ||  not needed because, if endVertex = v1 then it would get merged to v1 again*/ this.endVertex === v2){ // endVertex got joined
+            this.endVertex = v1;
+        }
         
     },
     
     cut: function(v1,v2){
         this.setUpper(v1, v2, this.getUpper(v1,v2)-1);
+    },
+    
+
+    
+    getWinner: function(){    // returns 0 if game is not yet over, 1 if join won, and 2 if cut won
+        if(this.endVertex === 1){   // join just joined v1 and endVertex
+            return 1;
+        }
+        else{   // did cut win?
+            // depth search/ breadth search from v1 to endVertex, if no path exists => cut won
+            var paths = this.bfs(1, this.endVertex);
+            if(paths.length === 0){
+                return 2;
+            }
+        }
+        return 0;
+    },
+    
+    bfs: function(startVertex, findVertex){
+        return this.bfsRec([[startVertex]], findVertex);
+    },
+    
+    bfsRec: function(paths,vFind){    // initialize startVertices with [startVertex], path with [startVertex]        
+        var newPaths = [];
+        var counterAlreadyFoundPaths = 0;
+        var g = this.clone();
+        
+        for(var i = 0, l = paths.length; i < l; i++){
+            var path = paths[i];
+            var vPathEnd = path[path.length - 1];
+            if(vPathEnd === vFind){    // this is already a finished path (ended in vFind)
+                newPaths.push(path.slice(0));
+                counterAlreadyFoundPaths++;
+                continue;
+            }
+            
+            // unfinished graph
+            for(var j = 1, lGraph = g.dim; j <= lGraph; j++){
+                for(var k = 0, amountEdges = g.get(vPathEnd, j); k < amountEdges; k++){
+                    var tmp = path.slice(0);    // return copy of array
+                    tmp.push(j);                // would return pushed element
+                    newPaths.push(tmp);       // extends amountEdges new paths from vPathEnd to j
+                }
+                g.set(vPathEnd, j, 0);
+            }
+        }
+        
+        if(counterAlreadyFoundPaths === newPaths.length){       // no edges to traverse found => we finished searching
+            return newPaths;
+        }
+        else{
+            return g.bfsRec(newPaths, vFind);
+        }
     },
     
     log: function(){
@@ -96,7 +153,5 @@ Game.Graph = new Class({            // represents a graph as an adjacency matrix
         }
         console.log(s);
     }
-    
-    
 
 });

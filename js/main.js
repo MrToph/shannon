@@ -18,18 +18,18 @@ if ( ! Detector.webgl ){
     
     // Run it in canvas
     // initialiaze everything
-    init();
+    init(false);
 	// make it move			
 	animate();	
 }else{
 	// initialiaze everything
-	init();
+	init(false);
 	// make it move			
 	animate();	
 }
 
 // ## Initialize everything
-function init() {
+function init(webGL) {
 	// create the container element
 	container = document.createElement( 'div' );
 	container.id = "3D";
@@ -37,7 +37,7 @@ function init() {
 
 	// start game
     var model = new Game.Game(location.hash.substring(1));
-    representation = new Game.Representation(model);
+    representation = new Game.Representation(model, webGL);
     controller = new Game.Controller(model);            // in this order, because controller needs to listen to representaitons events
     
     
