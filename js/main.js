@@ -64,7 +64,18 @@ function init(webGL) {
     
     //representation.endLevelAnim();
     guiRestartGame("Human", "AI");
-}			
+    
+    // set width/height
+    initGUI();
+}
+
+function initGUI(){
+    var winlose = document.getElementById('winlose');
+    var width = (window.innerWidth/5.0);
+    winlose.style.width = width.toString() + 'px';
+    winlose.style.height = (window.innerHeight/5.0).toString() + 'px';
+    winlose.style.left = ((window.innerWidth-width)/2).toString() + 'px';
+}
 
 // ## Animate and Display the Scene
 function animate() {                         

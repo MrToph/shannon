@@ -22,10 +22,10 @@ Game.Representation = new Class({
     	this.scene = new THREE.Scene();
     	var directionalLight = new THREE.DirectionalLight( 0xffffff );
         directionalLight.position.set( 1, 0, 1 ).normalize();
-        this.scene.add( directionalLight );
+        //this.scene.add( directionalLight );
         var directionalLight = new THREE.DirectionalLight( 0xffffff );
         directionalLight.position.set( 0, 1, -1 ).normalize();
-        this.scene.add( directionalLight );
+        //this.scene.add( directionalLight );
         
         // create camera
         var fov = 70.11;
@@ -291,11 +291,41 @@ Game.Representation = new Class({
         }
     },
     
-    endLevelAnim: function(){
+    endLevelAnim: function(winnerOpt){
+        if(winnerOpt === 1 || winnerOpt === 2){
+            var canvas = document.getElementById('winlose'); 
+            var ctx = canvas.getContext("2d"); 
+            var text = winnerOpt === 1 ? Game.WINMSG : Game.LOSEMSG;
+            
+            // delete things before
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+         
+            var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+//            gradient.addColorStop(0.0, 'rgba(0, 0, 255, 1)');
+//            gradient.addColorStop(0.3, 'rgba(128, 0, 255, 1.0)');
+//            gradient.addColorStop(0.6, 'rgba(0, 0, 255, 1.0)');
+//            gradient.addColorStop(1.0, 'rgba(0, 255, 0, 1.0)');
+//            ctx.fillStyle = gradient;
+            ctx.fillStyle = 'green';
+            ctx.textAlign = 'center';
+            //ctx.strokeStyle = "#F00"; 
+            ctx.font = 'bold 30px sans-serif'; 
+            
+            
+            ctx.fillText(text, canvas.width/2, canvas.height/2); 
+            
+            // show
+            canvas.style.visibility = 'visible';
+        }
+        
+    
         this.fireEvent('endLevelAnimFinished');  
     },
     
     nextLevelAnim: function(){
+        var canvas = document.getElementById('winlose'); 
+        canvas.style.visibility = 'hidden';
+        
         this.fireEvent('nextLevelAnimFinished');  
     },
     

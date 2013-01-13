@@ -59,6 +59,7 @@ Game.Controller = new Class({
             else{
                 console.log("CUT WIN");
             }
+            representation.endLevelAnim(over);
         }
         
         // set up next players turn
@@ -79,7 +80,7 @@ Game.Controller = new Class({
     onEndLevelAnimFinished: function(){     // this points to representation
         // ... do something
         
-        representation.nextLevelAnim();
+        window.setTimeout(representation.nextLevelAnim, Game.NEXTLVLTIMEOUT);
     },
     
     onNextLevelAnimFinished: function(){    // this points to representation
