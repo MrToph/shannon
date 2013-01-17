@@ -7,3 +7,4 @@ Game.ALIGNOFFSET = Math.sqrt(2)*Game.CUBESIZE/2 + 0.05;
 Game.NEXTLVLTIMEOUT = 5000;     // time until the win message is cleared and next level is initialized
 Game.WINMSG =  " Win!";
 Game.LOSEMSG = "Lose!";
+Game.MAXVERTICES = 50;

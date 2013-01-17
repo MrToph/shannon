@@ -39,9 +39,9 @@ function init(webGL) {
     var model = new Game.Game(location.hash.substring(1));
     representation = new Game.Representation(model, webGL);
     controller = new Game.Controller(model);            // in this order, because controller needs to listen to representaitons events
-    
-    
     container.appendChild( representation.getRendererDOM() );
+    container.style.zIndex = -1;
+    
     // init the Stats and append it to the Dom - performance vuemeter
 	stats	= new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -125,13 +125,6 @@ function onDocumentMouseDown( event ) {
 	var intersects = ray.intersectObjects( representation.getUnmarkedEdgesMeshes(), true);      // true = recursive flag because edges are Object3D created from THREE.SceneUtils.createMultiMaterialObject( ), which creates a hierarchical structure,
 
 	if ( intersects.length > 0 ) {
-		//world.clickedOnSphere(intersects[0].object.index);
-//		 var particle = new THREE.Particle( particleMaterial );
-//		 particle.position = intersects[ 0 ].point;
-//		 particle.scale.x = particle.scale.y = 8;
-//		 representation.scene.add( particle );
-        //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff | 0x80000000 );
-        //intersects[ 0 ].object.material = representation.eTakenMaterial;
         representation.clickedOnMesh(intersects[ 0 ].object);
 	}
 }
@@ -209,10 +202,14 @@ function createGUI() {
 	height : 3 * 32 - 1
 	}); 
 	
-	var params = {player1AI : "Human", player2AI : "AI", restart : function(){}}; 
+	var params = {player1AI : "Human", player2AI : "AI", leveledit:function(){}, restart : function(){}}; 
 
 	gui.add(params, 'player1AI', [ 'Human', 'AI' ] ).name("Player 1");
 	gui.add(params, 'player2AI', [ 'Human', 'AI' ] ).name("Player 2");
+    
+    gui.add(params, 'leveledit').name("Level Editor").onFinishChange(function(){
+    	var lvleditor = new Game.LevelEditor(representation.model.curLevel.getGraphAsString());
+	});
 	
 	gui.add(params, 'restart').name("Restart").onFinishChange(function(){
 		guiRestartGame(params.player1AI, params.player2AI);

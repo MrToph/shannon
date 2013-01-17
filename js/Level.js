@@ -76,6 +76,10 @@ Game.Level = new Class({
         }
     },
     
+    getGraphAsString: function(){
+        return this.stringRepresentation;
+    }
+    
 });
 
 
