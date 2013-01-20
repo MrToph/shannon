@@ -81,7 +81,6 @@ Game.LevelEditor = new Class({
         var arr = new Array(l+1);
         arr[0] = dim;
         for(var i = 1; i < l+1; i++){
-            var bla = document.id("edit" + i.toString());
             arr[i] = parseInt(document.id("edit" + i.toString()).value, 10);
         }
         // remove the UI

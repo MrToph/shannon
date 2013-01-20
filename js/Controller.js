@@ -2,7 +2,7 @@ Game.Controller = new Class({
     initialize: function(model){
        // init Model
        this.model = model;
-       this.running = false;
+       this.gameOver = false;
        this.isHuman1 = true;
        this.isHuman2 = false;
        this.p1Turn = true;
@@ -14,14 +14,18 @@ Game.Controller = new Class({
     },
     
     initLevel: function(graphAsStringRepres){
+        this.p1Turn = true;
+        this.gameOver = false;
         this.model.initLevel(graphAsStringRepres);
         this.setUrl(this.model.curLevel.stringRepresentation);
+        
+        // next move if ai is first player is done in main.restartGame
     },
     
     restartLevel: function(isHuman1, isHuman2){
         this.isHuman1 = isHuman1;
         this.isHuman2 = isHuman2;
-        this.p1Turn = true;
+        
         this.initLevel(this.model.curLevel.stringRepresentation);
     },
     
@@ -36,7 +40,7 @@ Game.Controller = new Class({
             v1 = tmp;
         }
         
-        if(! this.isValidMove(v1,v2,this.p1Turn)){
+        if(this.gameOver || !this.isValidMove(v1,v2,this.p1Turn)){
             return false;
         }
         
@@ -53,6 +57,7 @@ Game.Controller = new Class({
         
         var over = this.model.curLevel.graph.getWinner(v1, v2, this.p1Turn);
         if(over !== 0){
+            this.gameOver = true;
             if(over === 1){ // join won
                 console.log("JOIN WIN");
             }
@@ -64,6 +69,19 @@ Game.Controller = new Class({
         
         // set up next players turn
         this.p1Turn = !this.p1Turn;
+        
+        if(this.p1Turn){
+            if(!this.isHuman1){ // do AI join move
+                var moves = Game.AI.getJoinMove(this.model.curLevel.graph.clone());
+                this.doMove(moves[0], moves[1]);
+            }
+        }
+        else{
+            if(!this.isHuman2){ // do AI cut move
+                var moves = Game.AI.getCutMove(this.model.curLevel.graph.clone());
+                this.doMove(moves[0], moves[1]);
+            }
+        }
     },
     
     isValidMove: function(v1, v2, p1Turn){
@@ -84,6 +102,6 @@ Game.Controller = new Class({
     },
     
     onNextLevelAnimFinished: function(){    // this points to representation
-          this.running = true;
+          this.gameOver = false;
     }
 });

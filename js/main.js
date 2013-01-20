@@ -179,6 +179,12 @@ function locationHashChanged() {
         controller.initLevel(location.hash.substring(1));
         representation.createWorld();
     }
+    
+    // start AI if its join; here because we need to build the world first
+    if(!controller.isHuman1){
+        var moves = Game.AI.getJoinMove(controller.model.curLevel.graph.clone());
+        controller.doMove(moves[0], moves[1]);
+    }
 }
 
 function guiRestartGame(p1S, p2S) {
@@ -194,6 +200,12 @@ function guiRestartGame(p1S, p2S) {
     representation.destroyWorld();
 	controller.restartLevel(p1, p2);
     representation.createWorld();
+    
+    // start AI if its join; here because we need to build the world first
+    if(!controller.isHuman1){
+        var moves = Game.AI.getJoinMove(controller.model.curLevel.graph.clone());
+        controller.doMove(moves[0], moves[1]);
+    }
 }
 
 
